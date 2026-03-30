@@ -1,142 +1,223 @@
+# Group ? — Java Payroll System
 
-# 🚀 Project Alpha: Java-Based Payroll System**National University Dasmariñas** | [cite_start]**CCOBJPGL: Week 3 Lab** [cite: 1, 5]
+> **CCOBJPGL | Object-Oriented Programming | Week 3 Lab**
+> NU Dasmariñas
 
-## 📋 Project Summary
-[cite_start]An automated Terminal User Interface (TUI) engineered to compute and present employee compensation based on specific labor categories[cite: 11, 20]. [cite_start]This application emphasizes core **Object-Oriented Programming (OOP)** standards, specifically focusing on strict encapsulation, class hierarchies, and modular logic[cite: 8, 88, 109].
+***
 
-## 👥 The Development Team
-| Name | Designation | GitHub |
+## Project Overview
 
-# Project Alpha: Java Payroll System
-**National University Dasmariñas** | **CCOBJPGL: Week 3 Lab**
+An interactive TUI Java Payroll application designed to calculate and exhibit employee earnings based on specific employment categories. The system highlights core OOP strategies, including data hiding through encapsulation, organized class hierarchies, custom constructors, and formal accessors/mutators.
 
-## Project Summary
-[cite_start]An automated Terminal User Interface (TUI) designed to compute and display employee compensation based on specific labor categories[cite: 8, 11]. [cite_start]The application implements **Object-Oriented Programming (OOP)** standards, focusing on encapsulation, class hierarchies, and modular logic[cite: 8, 88, 109].
+***
 
-## Development Team
-| Name | Role | GitHub |
->>>>>>> fbca972 (Try)
-| :--- | :--- | :--- |
-| **Paquito** | Project Manager | @Alexmanacan |
-| **Leila** | Senior Developer | @leimrn |
-| **Emman** | Logic Architect | |
-| **Kiel** | UI/UX Developer | |
+## Team Members
 
-<<<<<<< HEAD
-## 🛠️ Technical Specifications
-=======
-## Technical Specifications
->>>>>>> fbca972 (Try)
+| Name | Role | GitHub Username |
+|------|------|----------------|
+| Leila | Project Manager | @leimrn |
+| Kiel | Lead Developer | @doreeemy |
+| <!-- Name --> | Developer | <!-- @username --> |
+
+***
+
+## Repository & Project Management
+
+- **GitHub Repository:** https://github.com/leimrn/3rdSem-Midterm-Project.git
+- **Jira Board:** https://minoquiiiii.atlassian.net/jira/software/projects/SCRUM/boards/1
+- **Branch Strategy:** `main` → `dev` → `feature/*`
+
+***
+
+## Tech Stack
+
 | Layer | Technology |
-| :--- | :--- |
-| **Language** | [cite_start]Java (JDK 17+) [cite: 23] |
-| **Environment** | Neovim (LazyVim) on Arch Linux |
-<<<<<<< HEAD
-| **Interface** | [cite_start]CLI-based TUI with ANSI styling [cite: 84, 99] |
-| **Tracking** | Jira & GitHub |
-| **Data Storage** | [cite_start]ArrayList & Custom Objects (No File I/O) [cite: 85, 86] |
+|-------|-----------|
+| Language | Java |
+| Interface | Console TUI (ANSI escape codes) |
+| Build | Javac / IDE of choice |
+| Version Control | Git + GitHub |
+| Project Management | Jira |
 
----## 📂 System Architecture```text
-payroll-system/
-├── src/│   ├── Main.java                 # Entry point; flow control only 
-│   ├── PayrollSystem.java        # Core TUI loop and controller [cite: 86]
-│   ├── TUITheme.java             # Terminal styling and box-drawing [cite: 99]│   ├── model/                    # Data Access Layer 
-│   │   ├── Employee.java         # Abstract base for all staff members
-│   │   ├── RegularEmployee.java  # Fixed monthly + leave benefits [cite: 25, 92]
-│   │   ├── ProbationaryEmployee.java [cite: 30, 93]
-│   │   ├── ContractualEmployee.java [cite: 30, 94]
-│   │   └── PartTimeEmployee.java # Hourly-based, no-work-no-pay [cite: 30, 95]
-│   ├── timekeeping/
-│   │   └── Timekeeping.java      # Shift tracking and hour calculation [cite: 19, 63]
-│   ├── computation/
-│   │   ├── GrossPayCalculator.java # Primary earnings arithmetic [cite: 96]
-│   │   └── DeductionsCalculator.java # Statutory and custom deductions [cite: 22, 35]
-│   └── output/
-│       └── PayslipRenderer.java  # Formatted console reporting [cite: 99, 124]
-└── README.md
-📊 Compensation Matrix
-Staff CategoryPay BasisBenefitsFrequency
-Regular 
-+2
-Monthly Rate✅ YesBi-monthly (1st-15th / 16th-30th) 
+***
 
-Probationary 
-+1
-Monthly Rate✅ YesBi-monthly (1st-15th / 16th-30th) 
+## Project Structure
 
-Contractual 
-+1
-Monthly Rate❌ NoBi-monthly (1st-15th / 16th-30th) 
-
-Part-Time 
-+1
-Hourly Rate❌ NoWeekly
-🧮 Calculation Logic 
-Earnings (Gross) 
-+2
-Base Pay: Derived from fixed monthly salary or total units worked.
-
-Overtime: Additional pay for hours exceeding the standard shift.
-+1
-Reductions (Deductions) 
-+3
-
-Statutory: BIR Withholding Tax, SSS, PhilHealth, and Pag-IBIG.
-+1
-
-Company: Internal loans, late penalties, and unexcused absences.
-+2
-⏰ Standard Operations 
-Operational Days: Monday to Friday.
-Standard Shift: 08:00 AM to 05:00 PM (8 active hours, 1 hour unpaid break).
-Metrics: Overtime starts after 17:00; Undertime applies for late starts or early exits.
-📜 Compliance Checklist 
-[ ] OOP Standards: 3+ user classes with private attributes and public accessors.
-[ ] Logic Isolation: Main class restricted to flow control with no business logic.
-[ ] Encapsulation: Proper use of constructors, getters, and setters.
-[ ] Robustness: Graceful handling of invalid user inputs.
-🚀 Execution Guide
-Compilation
-Bash
-
-javac -d out src/**/*.java
-Launch
-Bash
-
-java -cp out Main
-
-Note: ANSI colors require a terminal emulator with escape code support (e.g., Kitty, Alacritty, or Windows Terminal).
-📚 Required Research 
-[ ] Current BIR Withholding Tax Gradients 
-[ ] SSS Monthly Contribution Table 
-[ ] PhilHealth and Pag-IBIG Premium Rates 
-[ ] Holiday Pay Differentials 
-=======
-| **Interface** | [cite_start]Console-based TUI with ANSI styling [cite: 84, 99] |
-| **Tracking** | Jira & GitHub |
-| **Data Storage** | [cite_start]ArrayList & Custom Objects (No File I/O) [cite: 85, 86] |
-
----
-
-## System Architecture
-```text
+```
 payroll-system/
 ├── src/
-[cite_start]│   ├── Main.java                 # Entry point; flow control only 
-[cite_start]│   ├── PayrollSystem.java        # TUI controller & main menu loop 
-[cite_start]│   ├── TUITheme.java             # ANSI color constants & box-drawing [cite: 99]
-[cite_start]│   ├── model/                    # Data layer [cite: 89, 109]
-│   │   ├── Employee.java         # Abstract base class 
-[cite_start]│   │   ├── RegularEmployee.java  # Monthly rate + leave benefits [cite: 25, 92]
-[cite_start]│   │   ├── ProbationaryEmployee.java [cite: 30, 93]
-[cite_start]│   │   ├── ContractualEmployee.java [cite: 30, 94]
-[cite_start]│   │   └── PartTimeEmployee.java # Hourly rate, no work-no pay [cite: 30, 95]
+│   ├── Main.java                  # Entry point only — no logic
+│   ├── PayrollSystem.java         # TUI controller + main menu loop
+│   ├── TUITheme.java              # ANSI color helpers, box-drawing
+│   ├── model/
+│   │   ├── Employee.java          # Abstract base class
+│   │   ├── RegularEmployee.java   # Monthly rate + leave benefits
+│   │   ├── ProbationaryEmployee.java
+│   │   ├── ContractualEmployee.java
+│   │   └── PartTimeEmployee.java  # Hourly rate, no work no pay
 │   ├── timekeeping/
-[cite_start]│   │   └── Timekeeping.java      # Hours, OT, and Undertime logic [cite: 19, 63]
+│   │   └── Timekeeping.java       # Time-in/out input, hours computation
 │   ├── computation/
-[cite_start]│   │   ├── GrossPayCalculator.java # Core salary arithmetic [cite: 96, 112]
-[cite_start]│   │   └── DeductionsCalculator.java # Tax, SSS, PhilHealth, Pag-IBIG [cite: 22, 35]
+│   │   ├── GrossPayCalculator.java
+│   │   └── DeductionsCalculator.java
 │   └── output/
-[cite_start]│       └── PayslipRenderer.java  # Formatted console reporting [cite: 99, 124]
+│       └── PayslipRenderer.java   # CLI box-drawn payslip output
 └── README.md
+```
 
+***
+
+## Employee Types
+
+| Type | Rate Basis | Leave Benefits | Cut-off |
+|------|-----------|----------------|---------|
+| Regular | Monthly | ✔ Yes | 1st–15th / 16th–30th |
+| Probationary | Monthly | ✔ Yes | 1st–15th / 16th–30th |
+| Contractual | Monthly | ✘ No | 1st–15th / 16th–30th |
+| Part-Time | Hourly | ✘ No (no work, no pay) | Weekly |
+
+***
+
+## Payroll Computation
+
+### Gross Pay
+- Basic salary (monthly rate or hourly × hours worked)
+- Overtime pay (holiday rate research required)
+
+### Deductions
+- Withholding Tax (per BIR tax table)
+- SSS contribution (per SSS table)
+- PhilHealth contribution
+- Pag-IBIG contribution
+- Loans (if any)
+- Undertime / Absence deductions
+
+### Net Pay
+```
+Net Pay = Gross Pay − Total Deductions
+```
+
+***
+
+## Work Schedule
+
+- **Work days:** Monday–Friday
+- **Work hours:** 8:00 AM – 5:00 PM (8 hrs/day, 1 hr break)
+- **Overtime:** Hours beyond 5:00 PM
+- **Undertime:** Early departure / late arrival
+- **Absences:** Full-day no-shows (leave credits applied for Regular/Probationary)
+
+***
+
+## OOP Structure Requirements
+
+- [ ] At least 3 user-defined classes
+- [ ] All attributes declared as `private`
+- [ ] Constructors implemented for all classes
+- [ ] Getters and setters used throughout
+- [ ] `Main.java` controls program flow only — no business logic
+- [ ] Objects or `ArrayList` used (no static variables only)
+
+***
+
+## Grading Rubric Summary
+
+| Category | Max Points |
+|----------|-----------|
+| OOP Design & Program Structure | 30 pts |
+| Payroll Computation Accuracy | 25 pts |
+| Employee Type Handling | 15 pts |
+| User Interaction & Output | 15 pts |
+| Code Quality & Documentation | 10 pts |
+| Input Validation & Stability | 5 pts |
+| **Total** | **100 pts** |
+
+***
+
+## Program Requirements Checklist
+
+### Program Requirements
+- [ ] Console-based (no GUI)
+- [ ] No file I/O used
+- [ ] Menu-driven interface implemented
+
+### OOP Structure
+- [ ] At least 3 user-defined classes
+- [ ] Private attributes
+- [ ] Constructors implemented
+- [ ] Getters and setters used
+- [ ] Main class controls flow only
+
+### Payroll Functionality
+- [ ] Regular employee logic correct
+- [ ] Probationary employee logic correct
+- [ ] Contractual employee logic correct
+- [ ] Part-time (hourly, no work–no pay) logic correct
+- [ ] Gross pay computation correct
+- [ ] Deductions computation correct
+- [ ] Net pay computation correct
+
+### Output & Usability
+- [ ] Follows sample run format
+- [ ] Clear labels for all payroll components
+- [ ] Readable prompts and layout
+
+### Code Quality
+- [ ] Proper indentation and formatting
+- [ ] Meaningful variable, class, and method names
+- [ ] Comments explaining major logic
+
+***
+
+## Sprint Plan
+
+| Day | Focus | Assignee |
+|-----|-------|----------|
+| Day 1 | Repo setup, Jira board, task assignments | Project Manager |
+| Day 2 | `Employee` base class + 4 subclasses | Dev |
+| Day 3 | Payroll computation (gross pay + deductions) | Dev |
+| Day 4 | TUI menu system + `PayslipRenderer` | Dev |
+| Day 5 | Integration, testing, PR review, demo | All |
+
+***
+
+## How to Run
+
+## Prerequesites
+- Java JDK 17 or higher
+- Terminal / Command Prompt
+
+### Clone the Repository
+
+```bash
+git clone [link to repo]
+cd [repo name]
+```
+
+```bash
+# Compile
+javac -d out src/**/*.java
+
+# Run
+java -cp out Main
+```
+
+> **Note:** ANSI color codes require a terminal that supports them.
+> On Windows, use **Windows Terminal** or **Git Bash**.
+> On Linux/macOS, any standard terminal works.
+
+***
+
+## References to Research
+
+- [ ] BIR Withholding Tax Table (current year)
+- [ ] SSS Contribution Table
+- [ ] PhilHealth Contribution Rate
+- [ ] Pag-IBIG Contribution Rate
+- [ ] DOLE Holiday Pay Rules (regular vs. special holiday OT rates)
+
+***
+
+## License
+
+For academic use only — NU Dasmariñas | CCOBJPGL | <!-- Semester/AY -->
