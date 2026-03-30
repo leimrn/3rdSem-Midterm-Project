@@ -1,3 +1,5 @@
+package theme;
+
 public class TUITheme {
     // Text Formatting
     public static final String RESET = "\033[0m";
