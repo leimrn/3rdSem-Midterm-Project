@@ -1,3 +1,4 @@
+
 # Group ? — Java Payroll System
 
 > **CCOBJPGL | Object-Oriented Programming | Week 3 Lab**
@@ -221,3 +222,6 @@ java -cp out Main
 ## License
 
 For academic use only — NU Dasmariñas | CCOBJPGL | <!-- Semester/AY -->
+
+# 3rdSem-Midterm-Project
+1st Year 3rd Semester Midterm Project OO
