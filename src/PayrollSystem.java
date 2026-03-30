@@ -1,3 +1,8 @@
+import model.Employee;
+import model.RegularEmployee;
+import model.PartTimeEmployee;
+import model.ProbationaryEmployee;
+import model.ContractualEmployee;
 import theme.TUITheme;
 
 import java.util.Scanner;
@@ -34,6 +39,29 @@ public class PayrollSystem {
                 case "1":
                     // TODO: Call employee management logic
                     System.out.println(" Loading Employee Module...");
+                    System.out.println("Select Employment Type: [1] Regular [2] Part Time [3] Prbitionary [4] Contractual");
+                    System.out.print("Choice: ");
+                    String employmenttype = scanner.nextLine();
+                    //Calls out Employee
+                    Employee myEmployee;
+
+                    switch (employmenttype){
+                      case "1": myEmployee = new RegularEmployee();
+                                break;
+                      case "2": myEmployee = new PartTimeEmployee();
+                                break;
+                      case "3": myEmployee = new ProbationaryEmployee();
+                                break;
+                      default: myEmployee = new Employee();
+                               break;
+                    }
+
+                    //Scans input
+                    myEmployee.inputDetails(scanner);
+
+                    //Display input
+                    myEmployee.display();
+
                     pause();
                     break;
                 case "2":
