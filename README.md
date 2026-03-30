@@ -47,23 +47,23 @@ An interactive TUI Java Payroll application designed to calculate and exhibit em
 ```
 payroll-system/
 ├── src/
-│   ├── Main.java                  # Entry point only — no logic
-│   ├── PayrollSystem.java         # TUI controller + main menu loop
-│   ├── TUITheme.java              # ANSI color helpers, box-drawing
-│   ├── model/
-│   │   ├── Employee.java          # Abstract base class
-│   │   ├── RegularEmployee.java   # Monthly rate + leave benefits
-│   │   ├── ProbationaryEmployee.java
+│   ├── computation/              # Logic for financial math
+│   │   ├── DeductionsCalculator.java
+│   │   └── GrossPayCalculator.java
+│   ├── model/                    # OOP Data classes (Encapsulation)
 │   │   ├── ContractualEmployee.java
-│   │   └── PartTimeEmployee.java  # Hourly rate, no work no pay
-│   ├── timekeeping/
-│   │   └── Timekeeping.java       # Time-in/out input, hours computation
-│   ├── computation/
-│   │   ├── GrossPayCalculator.java
-│   │   └── DeductionsCalculator.java
-│   └── output/
-│       └── PayslipRenderer.java   # CLI box-drawn payslip output
-└── README.md
+│   │   ├── Employee.java         # Base class
+│   │   ├── PartTimeEmployee.java
+│   │   ├── ProbationaryEmployee.java
+│   │   └── RegularEmployee.java
+│   ├── output/                   # TUI Rendering and display
+│   │   └── PayslipRenderer.java
+│   ├── timekeeping/              # Work hour and shift logic
+│   │   └── Timekeeping.java
+│   └── Main.java                 # Entry point (Flow control only)
+├── .gitignore                    # Git exclusion rules
+└── README.md                     # Project documentation
+
 ```
 
 ***
