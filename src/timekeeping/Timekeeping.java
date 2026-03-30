@@ -1,4 +1,89 @@
 package timekeeping;
+import java.util.ArrayList;
+import java.time.LocalTime;
+import java.time.Duration;
 
 public class Timekeeping {
+    private double totalHours, totalOvertime, totalUndertime; // double as hours can have fractions
+    private int totalAbsences;                                //can be int as absences are counted in full days
+    private ArrayList<DailyRecord> timesheet;
+
+    // The constructor
+    public Timekeeping() {
+        this.timesheet = new ArrayList<>();
+
+        // Set variables to 0 so ensure a clean slate
+        this.totalHours = 0;
+        this.totalOvertime = 0;
+        this.totalUndertime = 0;
+        this.totalAbsences = 0;
+    }
+
+    // Feeding the timesheet
+    public void addDailyRecord(String timeIn, String timeOut) {
+        DailyRecord record = new DailyRecord(timeIn, timeOut);
+        timesheet.add(record);
+    } // Now, whenever the main menu asks the user for their time in and out, you pass the two strings into the method.
+      // It stores the data in the DailyRecord helper object (which is basically an objectified Array)
+      // and drops that into Arraylist
+
+    // Getters
+    public double getTotalHours() {
+        return totalHours;
+    }
+
+    public double getTotalOvertime() {
+        return totalOvertime;
+    }
+
+    public double getTotalUndertime() {
+        return totalUndertime;
+    }
+
+    public int getTotalAbsences() {
+        return totalAbsences;
+    }
+
+    // We will use a for each loop to look at every day in the timesheet in order to check for absences
+    public void calculateHours() {
+        for (DailyRecord record : timesheet) {
+
+            // Check absence syntax (if gettimein from DailyRecord contains nothing or "absent", then it is an absence
+            if (record.getTimeIn().equalsIgnoreCase("Absent") || record.getTimeIn().isEmpty()) {
+                totalAbsences++;
+                continue; // This will tell java to skip the syntax below and move to the next day
+            }
+
+            // Time conversion syntax
+            // Convert the strings to time objects
+            LocalTime in = LocalTime.parse(record.getTimeIn());
+            LocalTime out = LocalTime.parse(record.getTimeOut());
+
+            // Calculate the total minutes, minus the 1-hour break
+            long rawMinutes = Duration.between(in, out).toMinutes();
+            long netMinutes = rawMinutes - 60; // Here we subtract the 1-hour break
+
+            // Convert back to decimal hours
+            double netHours = netMinutes / 60.0; // Divide with a .0 for the most accurate result
+
+            // An If statement for if hours is exactly 8
+            if (netHours == 8.0) {
+                totalHours += 8.0;
+            }
+
+            // If hours does not meet 8
+            if (netHours < 8.0) {
+                totalHours += netHours;
+                totalUndertime += (8.0 - netHours);
+            }
+
+            // If hours is over 8
+            if (netHours > 8.0) {
+                totalHours += 8.0;
+                totalOvertime += (netHours - 8.0);
+            }
+        }
+    }
+
+
 }
