@@ -25,8 +25,7 @@ An interactive TUI Java Payroll application designed to calculate and exhibit em
 ## Repository & Project Management
 
 - **GitHub Repository:** https://github.com/leimrn/3rdSem-Midterm-Project.git
-- **Jira Board:** https://minoquiiiii.atlassian.net/jira/software/projects/SCRUM/boards/1
-- **Branch Strategy:** `main` → `dev` → `feature/*`
+
 
 ***
 
@@ -45,24 +44,28 @@ An interactive TUI Java Payroll application designed to calculate and exhibit em
 ## Project Structure
 
 ```
-payroll-system/
+PayrollSystem/
 ├── src/
-│   ├── computation/              # Logic for financial math
+│   ├── computation/
 │   │   ├── DeductionsCalculator.java
 │   │   └── GrossPayCalculator.java
-│   ├── model/                    # OOP Data classes (Encapsulation)
+│   ├── model/
+│   │   ├── Employee.java
 │   │   ├── ContractualEmployee.java
-│   │   ├── Employee.java         # Base class
 │   │   ├── PartTimeEmployee.java
 │   │   ├── ProbationaryEmployee.java
 │   │   └── RegularEmployee.java
-│   ├── output/                   # TUI Rendering and display
+│   ├── output/
 │   │   └── PayslipRenderer.java
-│   ├── timekeeping/              # Work hour and shift logic
-│   │   └── Timekeeping.java
-│   └── Main.java                 # Entry point (Flow control only)
-├── .gitignore                    # Git exclusion rules
-└── README.md                     # Project documentation
+│   ├── theme/
+│   │   └── TUITheme.java
+│   ├── timekeeping/
+│   │   └── (TimeManager files)
+│   ├── Main.java
+│   └── PayrollSystem.java
+├── .gitignore
+├── LICENSE
+└── README.md
 
 ```
 
