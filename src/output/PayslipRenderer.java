@@ -4,7 +4,7 @@ import theme.TUITheme;
 
 public class PayslipRenderer {
 
-    private final int width = 68; // Width updated to match your screenshot
+    private final int width = 68;
 
     public void printPayslip(
             String empId, String empName, String empType, String basicSalaryStr, String cutoff,
@@ -39,47 +39,85 @@ public class PayslipRenderer {
         printCentered("FINANCIAL DETAILS");
 
         // Earnings
-        System.out.printf("%s%s %s%-36s: %s%8.2f%s %s%n",
-                TUITheme.ORANGE, TUITheme.VERT, TUITheme.RESET, "Basic Salary", TUITheme.LIGHT_ORANGE, basePay, TUITheme.RESET, " ".repeat(19) + TUITheme.ORANGE + TUITheme.VERT);
-        System.out.printf("%s%s %s%-36s: %s%8.2f%s %s%n",
-                TUITheme.ORANGE, TUITheme.VERT, TUITheme.RESET, "Additional (Overtime)", TUITheme.LIGHT_ORANGE, overtimePay, TUITheme.RESET, " ".repeat(19) + TUITheme.ORANGE + TUITheme.VERT);
+        printFinancialLine("Basic Salary", String.format("%8.2f", basePay), TUITheme.LIGHT_ORANGE, false);
+        printFinancialLine("Additional (Overtime)", String.format("%8.2f", overtimePay), TUITheme.LIGHT_ORANGE, false);
+
+        // Deductions Header (Passing an empty string removes the colon)
+        printFinancialLine("Deductions:", "", TUITheme.RESET, false);
 
         // Deductions
-        System.out.printf("%s%s %s%-66s %s%n", TUITheme.ORANGE, TUITheme.VERT, TUITheme.MUTED_TEXT, "Deductions:", TUITheme.ORANGE + TUITheme.VERT);
-        printDeductionRow("Undertime/Late", undertimeDed);
-        printDeductionRow("Absences", absentDed);
-        printDeductionRow("SSS", sss);
-        printDeductionRow("W/Tax", wTax);
-        printDeductionRow("Pag-IBIG", pagibig);
-        printDeductionRow("PhilHealth", philhealth);
-        printDeductionRow("Loans", loans);
+        printFinancialLine("Undertime/Late", String.format("%8.2f", undertimeDed), TUITheme.RESET, true);
+        printFinancialLine("Absences", String.format("%8.2f", absentDed), TUITheme.RESET, true);
+        printFinancialLine("SSS", String.format("%8.2f", sss), TUITheme.RESET, true);
+        printFinancialLine("W/Tax", String.format("%8.2f", wTax), TUITheme.RESET, true);
+        printFinancialLine("Pag-IBIG", String.format("%8.2f", pagibig), TUITheme.RESET, true);
+        printFinancialLine("PhilHealth", String.format("%8.2f", philhealth), TUITheme.RESET, true);
+        printFinancialLine("Loans", String.format("%8.2f", loans), TUITheme.RESET, true);
 
         System.out.println(TUITheme.ORANGE + TUITheme.VERT + TUITheme.line(width) + TUITheme.VERT + TUITheme.RESET);
 
         // --- NET PAY ---
-        System.out.printf("%s%s %s%-36s: %s%8.2f%s %s%n",
-                TUITheme.ORANGE, TUITheme.VERT, TUITheme.BOLD, "NET PAY", TUITheme.LIGHT_ORANGE, netPay, TUITheme.RESET, " ".repeat(19) + TUITheme.ORANGE + TUITheme.VERT);
+        printFinancialLine("NET PAY", String.format("%8.2f", netPay), TUITheme.LIGHT_ORANGE, false);
 
         // --- FOOTER ---
         System.out.println(TUITheme.ORANGE + TUITheme.BOTTOM_LEFT + TUITheme.line(width) + TUITheme.BOTTOM_RIGHT + TUITheme.RESET);
     }
 
-    // --- Helper Methods ---
+    // --- Bulletproof Helper Methods ---
 
     private void printRow(String label, String value) {
-        String formatted = String.format(" %-20s %-45s", label, value);
-        System.out.println(TUITheme.ORANGE + TUITheme.VERT + TUITheme.RESET + formatted + " " + TUITheme.ORANGE + TUITheme.VERT + TUITheme.RESET);
+        String cleanLeft = " " + label;
+        int leftWidth = 22; // Locks the value to a specific starting column
+
+        if (cleanLeft.length() < leftWidth) {
+            cleanLeft += " ".repeat(leftWidth - cleanLeft.length());
+        }
+
+        int visibleLen = leftWidth + value.length();
+        String rightPad = " ".repeat(Math.max(0, width - visibleLen));
+
+        System.out.println(TUITheme.ORANGE + TUITheme.VERT + TUITheme.RESET
+                + cleanLeft + value + rightPad
+                + TUITheme.ORANGE + TUITheme.VERT + TUITheme.RESET);
     }
 
-    private void printDeductionRow(String label, double amount) {
-        String formatted = String.format("    %-24s: %8.2f", label, amount);
-        System.out.println(TUITheme.ORANGE + TUITheme.VERT + TUITheme.RESET + formatted + " ".repeat(30) + TUITheme.ORANGE + TUITheme.VERT + TUITheme.RESET);
+    private void printFinancialLine(String label, String amountStr, String amountColor, boolean isDeduction) {
+        String leftPad = isDeduction ? "    " : " ";
+        String cleanLeft = leftPad + label;
+
+        int leftWidth = 40; // Pushes all financial colons to the exact same spot
+        if (cleanLeft.length() < leftWidth) {
+            cleanLeft += " ".repeat(leftWidth - cleanLeft.length());
+        }
+
+        // Apply special text formatting without breaking the length math
+        String styledLeft;
+        if (label.equals("NET PAY")) {
+            styledLeft = TUITheme.BOLD + cleanLeft + TUITheme.RESET;
+        } else if (label.equals("Deductions:")) {
+            styledLeft = TUITheme.MUTED_TEXT + cleanLeft + TUITheme.RESET;
+        } else {
+            styledLeft = cleanLeft;
+        }
+
+        String colon = amountStr.isEmpty() ? "  " : ": ";
+
+        // Calculate exact spacing needed before injecting ANSI colors
+        int visibleLen = leftWidth + colon.length() + amountStr.length();
+        String rightPad = " ".repeat(Math.max(0, width - visibleLen));
+
+        System.out.println(TUITheme.ORANGE + TUITheme.VERT + TUITheme.RESET
+                + styledLeft + colon + amountColor + amountStr + TUITheme.RESET + rightPad
+                + TUITheme.ORANGE + TUITheme.VERT + TUITheme.RESET);
     }
 
     private void printCentered(String text) {
         int padding = (width - text.length()) / 2;
         String leftPad = " ".repeat(padding);
         String rightPad = " ".repeat(width - text.length() - padding);
-        System.out.println(TUITheme.ORANGE + TUITheme.VERT + TUITheme.BOLD + leftPad + text + rightPad + TUITheme.ORANGE + TUITheme.VERT + TUITheme.RESET);
+
+        System.out.println(TUITheme.ORANGE + TUITheme.VERT + TUITheme.BOLD
+                + leftPad + text + rightPad
+                + TUITheme.ORANGE + TUITheme.VERT + TUITheme.RESET);
     }
 }

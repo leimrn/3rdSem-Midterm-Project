@@ -13,6 +13,7 @@ public class Employee {
   public int getId() { return id; }
   public String getEmptype() {return emptype; }
   public int getWorkhour() { return workhour; }
+  // Paki pangalan exactly 'getBaseRate'!!!!!!!
 
   //setters allows to set the private data
   public void setName(String name) { this.name = name; }

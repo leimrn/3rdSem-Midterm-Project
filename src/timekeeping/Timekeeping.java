@@ -13,9 +13,9 @@ public class Timekeeping {
         this.timesheet = new ArrayList<>();
 
         // Set variables to 0 so ensure a clean slate
-        this.totalHours = 0;
-        this.totalOvertime = 0;
-        this.totalUndertime = 0;
+        this.totalHours = 0.0;
+        this.totalOvertime = 0.0;
+        this.totalUndertime = 0.0;
         this.totalAbsences = 0;
     }
 
@@ -23,7 +23,7 @@ public class Timekeeping {
     public void addDailyRecord(String timeIn, String timeOut) {
         DailyRecord record = new DailyRecord(timeIn, timeOut);
         timesheet.add(record);
-    } // Now, whenever the main menu asks the user for their time in and out, you pass the two strings into the method.
+    } // Whenever the main menu asks the user for their time in and out, the two strings go to this method.
       // It stores the data in the DailyRecord helper object (which is basically an objectified Array)
       // and drops that into Arraylist
 
