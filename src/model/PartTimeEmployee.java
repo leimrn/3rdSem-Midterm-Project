@@ -3,16 +3,25 @@ import java.util.Scanner;
 
 
 public class PartTimeEmployee extends Employee {
+
+  // Overriding the inputDetails method to handle Part-Time status
   @Override
+
   public void inputDetails(Scanner sc) {
     
-    setEmptype("Part Time"); // Setting the private field in parent via setter
+    // Automatically set the employee type to Part-Time
+    setEmptype("Part-Time");
+
+    // Collecting user input using the setters from Employee.java
     System.out.print("Enter Name: ");
     setName(sc.nextLine());
+
     System.out.print("Enter ID: ");
     setId(sc.nextInt());
-    System.out.print("Enter Work Hours: ");
-    setWorkhour(sc.nextInt());
-    sc.nextLine(); 
+
+    System.out.print("Enter Fixed Salary or Base Rate: ");
+    setBaseRate(sc.nextDouble());
+
+    sc.nextLine();
   }
 }

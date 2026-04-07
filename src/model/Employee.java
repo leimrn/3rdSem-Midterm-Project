@@ -6,29 +6,41 @@ public class Employee {
   private String name;
   private int id;
   private String emptype;
-  private int workhour;
+  private double baserate;
 
   //Getters allows to read the private data
   public String getName(){return name; }
   public int getId() { return id; }
   public String getEmptype() {return emptype; }
-  public int getWorkhour() { return workhour; }
+  public int getBaseRate() { return baserate; }
   // Paki pangalan exactly 'getBaseRate'!!!!!!!
 
-  //setters allows to set the private data
-  public void setName(String name) { this.name = name; }
-  public void setId(int id) { this.id = id; }
-  public void setEmptype(String emptype) { this.emptype = emptype; }
-  public void setWorkhour(int workhour) { this.workhour = workhour; }
+  // Setters allow the program to update the private data
+  public void setName(String name) { 
+    this.name = name;
+  }
+  public void setId(int id) { 
+    this.id = id; 
+  }
+  public void setEmptype(String emptype) { 
+    this.emptype = emptype; 
+  }
+  public void setBaseRate(double baserate) { 
+    this.baserate = baserate; 
+  }
 
+
+  // This method will be used by subclasses to handle specific user inputs
   public void inputDetails(Scanner sc) {
     //subclasses inputted information
   }
+
+  //Prints the basic employee information
   public void display() {
     System.out.println("\n--- Employee Record ---");
     System.out.println("ID: " + id);
     System.out.println("Name: " + name);
     System.out.println("Type: " + emptype);
-    System.out.println("Hours: " + workhour);
+    System.out.println("Base Rate: " + baserate);
   }
 }
