@@ -1,5 +1,5 @@
 
-# Group ? — Java Payroll System
+# Java Payroll System
 
 > **CCOBJPGL | Object-Oriented Programming | Week 3 Lab**
 > NU Dasmariñas
@@ -18,7 +18,7 @@ An interactive TUI Java Payroll application designed to calculate and exhibit em
 |------|------|----------------|
 | Leila | Project Manager | @leimrn |
 | Kiel | Lead Developer | @doreeemy |
-| <!-- Name --> | Developer | <!-- @username --> |
+
 
 ***
 
