@@ -49,6 +49,6 @@ public class Employee {
     System.out.println("ID: " + id);
     System.out.println("Name: " + name);
     System.out.println("Type: " + emptype);
-    System.out.println("Base Rate: " + baserate);
+    System.out.println("Base Salary: " + baserate);
   }
 }

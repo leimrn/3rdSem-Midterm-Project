@@ -2,6 +2,7 @@ package timekeeping;
 import java.util.ArrayList;
 import java.time.LocalTime;
 import java.time.Duration;
+import java.time.format.DateTimeFormatter;
 
 public class Timekeeping {
     private double totalHours, totalOvertime, totalUndertime; // double as hours can have fractions
@@ -56,11 +57,24 @@ public class Timekeeping {
 
             // Time conversion syntax
             // Convert the strings to time objects
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
             LocalTime in = LocalTime.parse(record.getTimeIn());
             LocalTime out = LocalTime.parse(record.getTimeOut());
 
             // Calculate the total minutes, minus the 1-hour break
             long rawMinutes = Duration.between(in, out).toMinutes();
+
+            // Failsafe for night shifts bringing the hours into negatives
+            if (rawMinutes < 0) {
+                rawMinutes += 1440;
+            }
+
+            // Failsafe if i.e they input the same time in time out "In: 12:30" "Out: 12:30"
+            if (rawMinutes <= 0) {
+                totalUndertime += 8.0; // They missed their whole 8-hour shift for the day
+                continue;
+            }
+
             long netMinutes = rawMinutes - 60; // Here we subtract the 1-hour break
 
             // Convert back to decimal hours
