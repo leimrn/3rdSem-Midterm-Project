@@ -5,6 +5,7 @@ import model.ProbationaryEmployee;
 import model.ContractualEmployee;
 import theme.TUITheme;
 
+
 import java.util.Scanner;
 
 public class PayrollSystem {
@@ -61,6 +62,8 @@ public class PayrollSystem {
 
                     //Display input
                     myEmployee.display();
+
+
 
                     pause();
                     break;

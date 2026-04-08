@@ -9,10 +9,18 @@ public class Employee {
   private double baserate;
 
   //Getters allows to read the private data
-  public String getName(){return name; }
-  public int getId() { return id; }
-  public String getEmptype() {return emptype; }
-  public int getBaseRate() { return baserate; }
+  public String getName()
+  {return name;
+  }
+  public int getId() {
+    return id;
+  }
+  public String getEmptype() {
+    return emptype;
+  }
+  public double getBaseRate() {
+    return baserate;
+  }
   // Paki pangalan exactly 'getBaseRate'!!!!!!!
 
   // Setters allow the program to update the private data
