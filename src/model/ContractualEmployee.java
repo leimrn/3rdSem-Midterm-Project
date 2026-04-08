@@ -16,8 +16,21 @@ public class ContractualEmployee extends Employee {
     System.out.print("Enter Name: ");
     setName(sc.nextLine());
 
-    System.out.print("Enter ID: ");
-    setId(sc.nextInt());
+    //Error handling for ID number
+    while (true) {
+        System.out.print("Enter ID: ");
+        String input = sc.nextLine();
+
+        try {
+            
+            int idValue = Integer.parseInt(input); 
+            setId(idValue); 
+            break;
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Invalid input! Must be a number.");
+        }
+    }
 
     System.out.print("Enter Fixed Salary or Base Rate: ");
     setBaseRate(sc.nextDouble());
