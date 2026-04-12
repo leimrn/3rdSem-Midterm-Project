@@ -58,16 +58,20 @@ public class DeductionsCalculator {
         // Grab the emptype string from Employee.java and convert to lowercase to play safe
         String type = employee.getEmptype().toLowerCase();
 
+        // Everyone gets deducted for raw, unpaid "Absences" (including the missing days!)
+        int daysToDeduct = timeData.getTotalAbsences();
+
         // If they are regular or probationary, they get benefits
         boolean hasBenefits = type.equals("regular") || type.equals("probationary");
 
         if (!hasBenefits) {
-            // No benefits (Contractual/Part-time) = deduct for absences
-            this.absenceDeduction = timeData.getTotalAbsences() * 8.0 * hourlyrate;
-        } else {
-            // Has benefits (Regular/Probationary) = forgive the absence
-            this.absenceDeduction = 0.0;
+            // No benefits (Contractual/Part-time) = deduct for absences AND reject their "Leaves"
+            daysToDeduct += timeData.getTotalLeaves();
         }
+        // If they DO have benefits, we forgive the "Leave" and only deduct the raw unexcused Absences!
+
+        // Final deduction math
+        this.absenceDeduction = daysToDeduct * 8.0 * hourlyrate;
     }
 
     private void computeGovernmentContributions(double baseSalary) {
@@ -91,7 +95,7 @@ public class DeductionsCalculator {
         double philhealthBase = baseSalary;
         if (philhealthBase < 10000.0) {
             philhealthBase = 10000.0; // PhilHealth requires a minimum flat fee. Bumping to 10k, ensures low
-                                      // earners pay the right amount needed to keep their benefits
+            // earners pay the right amount needed to keep their benefits
         } else if (philhealthBase > 100000.0) {
             philhealthBase = 100000.0; // 100k is the maximum cap PhilHealth placed. It's ceiling.
         }
@@ -120,7 +124,7 @@ public class DeductionsCalculator {
         // If you divide 250,000 by 12 months, you get roughly ₱20,833
         if (taxableIncome > 20833.0) {
             this.withholdingTax = (taxableIncome - 20833.0) * 0.20; // You are above the minimum threshold. The gov
-                                                                    // takes your salary and subtracts it with 20833.
+            // takes your salary and subtracts it with 20833.
         } else {                                                    // 20% of that result is your final tax.
             // If they make below the threshold, they are exempt from taxes
             this.withholdingTax = 0.0;
@@ -129,17 +133,34 @@ public class DeductionsCalculator {
 
     // The final method that takes all of the other methods and bridges to Main.java
     public void calculateAllDeductions(Employee employee, Timekeeping timeData, double grossPay) {
-        // Take the salary from employee.java
         double baseSalary = employee.getBaseRate();
+        double hourlyrate;
+        double monthlyIncomeBase;
 
-        // Calculate the exact hourly rate (Assuming from 22 working days and 8 hours a day)
-        double hourlyrate = (baseSalary / 22.0) / 8.0;
+        // Check for Part-timers
+        if (employee.getEmptype().equalsIgnoreCase("Part-time")) {
+            // Their baseSalary IS their hourly rate!
+            hourlyrate = baseSalary;
 
-        // Run Attendance Deductions (passing the real hourly rate we just calculated)
-        computeAttendanceDeductions(employee, timeData, hourlyrate);
+            // estimate their monthly income (grosspay x 2) to figure out their PhilHealth/SSS brackets
+            monthlyIncomeBase = grossPay * 2;
 
-        // Run Government Contributions
-        computeGovernmentContributions(baseSalary);
+            // NO WORK, NO PAY: We do not penalize them for absences or undertime.
+            // Gross Pay is already calculated based only on hours worked.
+            this.absenceDeduction = 0.0;
+            this.undertimeDeduction = 0.0;
+
+        } else {
+            // FOR REGULAR, PROBATIONARY, AND CONTRACTUAL
+            hourlyrate = (baseSalary / 22.0) / 8.0;
+            monthlyIncomeBase = baseSalary; // Use their fixed monthly salary for gov brackets
+
+            // Run Attendance Deductions
+            computeAttendanceDeductions(employee, timeData, hourlyrate);
+        }
+
+        // Run Government Contributions using the proper base
+        computeGovernmentContributions(monthlyIncomeBase);
 
         // Run Tax Calculator
         computeTax(grossPay);

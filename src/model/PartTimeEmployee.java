@@ -32,8 +32,8 @@ public class PartTimeEmployee extends Employee {
         }
     }
 
-    System.out.print("Enter Fixed Salary or Base Rate: ");
-    setBaseRate(sc.nextDouble());
+      System.out.print("Enter Hourly Rate (e.g., 150): ₱");
+      this.setBaseRate(sc.nextDouble());
 
     sc.nextLine();
   }

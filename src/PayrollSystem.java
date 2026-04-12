@@ -8,7 +8,6 @@ import model.RegularEmployee;
 import model.ProbationaryEmployee;
 import computation.DeductionsCalculator;
 import computation.GrossPayCalculator;
-import output.PayslipRenderer;
 
 import java.util.Scanner;
 
@@ -81,12 +80,22 @@ public class PayrollSystem {
                     System.out.print("Enter cut-off period (e.g., Nov 1-15): ");
                     cutoffPeriod = scanner.nextLine();
 
-                    System.out.print("How many days are in this payroll cutoff? ");
-                    int days = scanner.nextInt();
+                    // Prevent the Perfect Attendance Illusion
+                    System.out.print("How many days are required for this cutoff? (e.g., 11): ");
+                    int requiredDays = scanner.nextInt();
+
+                    System.out.print("How many days of logs did the employee actually submit? ");
+                    int loggedDays = scanner.nextInt();
                     scanner.nextLine();
 
-                    System.out.println("\n(Format HH:MM in 24hr time. Type 'Absent' if did not work)");
-                    for (int i = 1; i <= days; i++) {
+                    // Automatically penalize any days they didn't show up for
+                    int missingDays = requiredDays - loggedDays;
+                    for (int i = 0; i < missingDays; i++) {
+                        timeData.addDailyRecord("Absent", "Absent");
+                    }
+
+                    System.out.println("\n(Format HH:MM in 24hr time. Type 'Absent' for unpaid, or 'Leave' for paid leave)");
+                    for (int i = 1; i <= loggedDays; i++) {
                         System.out.print("Day " + i + " Time In: ");
                         String timeIn = scanner.nextLine();
                         System.out.print("Day " + i + " Time Out: ");
@@ -97,14 +106,14 @@ public class PayrollSystem {
 
                     // Let the Timekeeping class crunch the minutes and hours
                     timeData.calculateHours();
-                    System.out.println(TUITheme.LIGHT_ORANGE + " Timekeeping successfully saved!" + TUITheme.RESET);
+                    System.out.println(TUITheme.LIGHT_ORANGE + " Timekeeping successfully saved! (" + missingDays + " unlogged days marked as absent)." + TUITheme.RESET);
                     pause();
                     break;
 
                 case "3":
                     System.out.println(" Generating Payslips...");
                     if (myEmployee == null || timeData == null) {
-                        System.out.println(TUITheme.ORANGE + " Error: Please complete Option 1 and Option 2 first!" + TUITheme.RESET);
+                        System.out.println(TUITheme.ORANGE + "Please complete Option 1 and Option 2 first!" + TUITheme.RESET);
                         pause();
                         break;
                     }
@@ -115,13 +124,15 @@ public class PayrollSystem {
 
                     double finalGross = grossCalc.getGrossPay();
 
+                    // CRITICAL FIX: Pull overtime directly from the calculator instead of subtracting base rate!
+                    double overtimePay = grossCalc.getOvertimepay();
+
                     // Run Deductions
                     DeductionsCalculator dedCalc = new DeductionsCalculator();
                     dedCalc.calculateAllDeductions(myEmployee, timeData, finalGross);
 
                     // Prepare final math for Renderer
                     double totalAbsentUndertimeHrs = (timeData.getTotalAbsences() * 8.0) + timeData.getTotalUndertime();
-                    double overtimePay = finalGross - myEmployee.getBaseRate();
 
                     double totalDeductions = dedCalc.getUndertimeDeduction() +
                             dedCalc.getAbsenceDeduction() +
@@ -129,6 +140,7 @@ public class PayrollSystem {
                             dedCalc.getWithholdingTax() +
                             dedCalc.getPagibigContribution() +
                             dedCalc.getPhilhealthContribution();
+
                     double netPay = finalGross - totalDeductions;
 
                     // Render it
@@ -142,7 +154,7 @@ public class PayrollSystem {
                             timeData.getTotalHours(),
                             totalAbsentUndertimeHrs,
                             timeData.getTotalOvertime(),
-                            myEmployee.getBaseRate(),
+                            (finalGross - overtimePay), // Safe Base Pay Calculation for the Earnings section (Works for both Part-time & Regular!)
                             overtimePay,
                             dedCalc.getUndertimeDeduction(),
                             dedCalc.getAbsenceDeduction(),
